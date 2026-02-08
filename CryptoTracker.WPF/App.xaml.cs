@@ -1,4 +1,5 @@
 ﻿using CryptoTracker.WPF.Extensions;
+using CryptoTracker.WPF.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
@@ -8,6 +9,7 @@ namespace CryptoTracker.WPF
     public partial class App : Application
     {
         private IHost _host;
+
         public App()
         {
             _host = Host.CreateDefaultBuilder()
@@ -19,6 +21,10 @@ namespace CryptoTracker.WPF
             _host.Start();
 
             MainWindow mainWindow = _host.Services.GetRequiredService<MainWindow>();
+            MainViewModel mainViewModel = _host.Services
+                .GetRequiredService<MainViewModel>();
+
+            mainWindow.DataContext = mainViewModel;
             mainWindow.Show();
 
             base.OnStartup(e);

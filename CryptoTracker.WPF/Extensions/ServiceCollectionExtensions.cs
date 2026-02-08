@@ -1,4 +1,7 @@
-﻿using CryptoTracker.WPF.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CryptoTracker.WPF.Interfaces;
+using CryptoTracker.WPF.Services;
+using CryptoTracker.WPF.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoTracker.WPF.Extensions
@@ -10,6 +13,10 @@ namespace CryptoTracker.WPF.Extensions
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddSingleton<Func<Type, ObservableObject>>(provider =>
+                viewModelType => (ObservableObject)provider.GetRequiredService(viewModelType));
 
             return services;
         }

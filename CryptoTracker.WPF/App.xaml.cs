@@ -13,7 +13,10 @@ namespace CryptoTracker.WPF
         public App()
         {
             _host = Host.CreateDefaultBuilder()
-                .ConfigureServices(services => services.AddServices())
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddAppOptions(context.Configuration).AddServices();
+                })
                 .Build();
         }
         protected override void OnStartup(StartupEventArgs e)

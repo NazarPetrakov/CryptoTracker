@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CryptoTracker.WPF.API;
+using CryptoTracker.WPF.API.CoinGecko;
 using CryptoTracker.WPF.Interfaces;
 using CryptoTracker.WPF.Options;
 using CryptoTracker.WPF.Services;
@@ -19,6 +19,7 @@ namespace CryptoTracker.WPF.Extensions
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<ICoinsService, CoinsService>();
+            services.AddSingleton<IMessageService, MessageService>();
 
             services.AddSingleton<Func<Type, ObservableObject>>(provider =>
                 viewModelType => (ObservableObject)provider.GetRequiredService(viewModelType));

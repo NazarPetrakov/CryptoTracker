@@ -1,5 +1,6 @@
-﻿using CryptoTracker.WPF.Interfaces;
-using CryptoTracker.WPF.Models;
+﻿using CryptoTracker.WPF.API.CoinGecko.DTOs;
+using CryptoTracker.WPF.Helpers.QueryParameters;
+using CryptoTracker.WPF.Interfaces;
 
 namespace CryptoTracker.WPF.Services
 {
@@ -10,11 +11,20 @@ namespace CryptoTracker.WPF.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<List<Coin>> GetCoinsList()
+        public async Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
+            CoinWithMarketDataParams? queryParams = null)
         {
-            var coins = await _httpClient.GetAsync<List<Coin>>("coins/list");
+            string uri = "coins/markets";
 
-            return coins;
+            if (queryParams is not null)
+            {
+                var queryParamsString = QueryParamsBuilder.ToQueryString(queryParams);
+                uri += "?" + queryParamsString;
+            }
+
+            var coins = await _httpClient.GetAsync<IEnumerable<CoinWithMarketDataDto>>(uri);
+
+            return coins!;
         }
     }
 }

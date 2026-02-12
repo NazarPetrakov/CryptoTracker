@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 
-namespace CryptoTracker.WPF.API
+namespace CryptoTracker.WPF.API.CoinGecko
 {
     internal class CoinGeckoHttpClient : ICoinHttpClient
     {

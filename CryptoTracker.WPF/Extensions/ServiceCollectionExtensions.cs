@@ -17,6 +17,7 @@ namespace CryptoTracker.WPF.Extensions
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<DetailedCoinViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<ICoinsService, CoinsService>();
             services.AddSingleton<IMessageService, MessageService>();

@@ -6,5 +6,6 @@ namespace CryptoTracker.WPF.Interfaces
     {
         ObservableObject CurrentViewModel { get; }
         void NavigateTo<TViewModel>() where TViewModel : ObservableObject;
+        void NavigateTo(Type viewModelType);
     }
 }

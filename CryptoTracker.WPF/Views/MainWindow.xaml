@@ -8,9 +8,17 @@
         Height="450"
         mc:Ignorable="d">
     <DockPanel>
-        <StackPanel Width="200" DockPanel.Dock="Left">
-            <Button Content="Home" />
-        </StackPanel>
+
+        <ListBox Width="Auto "
+                 DockPanel.Dock="Left"
+                 ItemsSource="{Binding NavigationItems}"
+                 SelectedItem="{Binding SelectedNavItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <ContentControl Content="{Binding NavigationService.CurrentViewModel}" />
     </DockPanel>

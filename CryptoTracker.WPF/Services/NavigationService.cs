@@ -19,5 +19,11 @@ namespace CryptoTracker.WPF.Services
             ObservableObject viewModel = _viewModelsFactory.Invoke(typeof(TViewModel));
             CurrentViewModel = viewModel;
         }
+
+        public void NavigateTo(Type viewModelType)
+        {
+            ObservableObject viewModel = _viewModelsFactory.Invoke(viewModelType);
+            CurrentViewModel = viewModel;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using CryptoTracker.WPF.Extensions;
+using System.Runtime.Serialization;
 
 namespace CryptoTracker.WPF.Helpers.QueryParameters
 {
@@ -14,15 +15,34 @@ namespace CryptoTracker.WPF.Helpers.QueryParameters
         public Locale? Locale { get; set; }
         public string? Precision { get; set; }
 
+        public override string ToString()
+        {
+            Dictionary<string, string?> dict = new Dictionary<string, string?>()
+            {
+                ["vs_currency"] = VsCurrency,
+                ["ids"] = Ids,
+                ["names"] = Names,
+                ["symbols"] = Symbols,
+                ["include_tokens"] = IncludeTokens?.ToApiString(),
+                ["order"] = Order?.ToApiString(),
+                ["per_page"] = PerPage?.ToString(),
+                ["page"] = Page?.ToString(),
+                ["sparkline"] = Sparkline?.ToString().ToLower(),
+                ["precision"] = Precision,
+                ["locale"] = Locale.ToApiString(),
+            }; ;
+
+            return ConcatParams(dict);
+        }
     }
-    public enum Locale
+    internal enum Locale
     {
         [EnumMember(Value = "en")]
         En,
         [EnumMember(Value = "uk")]
         Uk
     }
-    public enum IncludeTokens
+    internal enum IncludeTokens
     {
 
         [EnumMember(Value = "top")]
@@ -30,7 +50,7 @@ namespace CryptoTracker.WPF.Helpers.QueryParameters
         [EnumMember(Value = "all")]
         All
     }
-    public enum CoinsOrderBy
+    internal enum CoinsOrderBy
     {
         [EnumMember(Value = "market_cap_asc")]
         MarketCapAsc,

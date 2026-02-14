@@ -1,6 +1,6 @@
 ﻿namespace CryptoTracker.WPF.Helpers.QueryParameters
 {
-    public class PaginationQueryParameters
+    internal abstract class PaginationQueryParams : BaseQueryParams
     {
         public int? PerPage { get; set; }
         public int? Page { get; set; }

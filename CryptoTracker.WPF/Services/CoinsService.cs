@@ -14,17 +14,20 @@ namespace CryptoTracker.WPF.Services
         public async Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
             CoinWithMarketDataParams? queryParams = null)
         {
-            string uri = "coins/markets";
+            var endpoint = AddQueryParameters("coins/markets", queryParams);
 
-            if (queryParams is not null)
-            {
-                var queryParamsString = QueryParamsBuilder.ToQueryString(queryParams);
-                uri += "?" + queryParamsString;
-            }
-
-            var coins = await _httpClient.GetAsync<IEnumerable<CoinWithMarketDataDto>>(uri);
+            var coins = await _httpClient.GetAsync<IEnumerable<CoinWithMarketDataDto>>(endpoint);
 
             return coins!;
+        }
+        private string AddQueryParameters(string endpoint, BaseQueryParams? queryParams)
+        {
+            if (queryParams is not null)
+            {
+                var queryParamsString = queryParams.ToString();
+                endpoint += "?" + queryParamsString;
+            }
+            return endpoint;
         }
     }
 }

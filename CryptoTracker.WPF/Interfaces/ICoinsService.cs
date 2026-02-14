@@ -3,7 +3,7 @@ using CryptoTracker.WPF.Helpers.QueryParameters;
 
 namespace CryptoTracker.WPF.Interfaces
 {
-    public interface ICoinsService
+    internal interface ICoinsService
     {
         Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
             CoinWithMarketDataParams? queryParams = null);

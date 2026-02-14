@@ -1,6 +1,6 @@
 ﻿namespace CryptoTracker.WPF.Interfaces
 {
-    public interface ICoinHttpClient
+    internal interface ICoinHttpClient
     {
         Task<T?> GetAsync<T>(string uri);
     }

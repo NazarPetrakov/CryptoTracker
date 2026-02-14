@@ -2,7 +2,7 @@
 
 namespace CryptoTracker.WPF.Interfaces
 {
-    public interface INavigationService
+    internal interface INavigationService
     {
         ObservableObject CurrentViewModel { get; }
         void NavigateTo<TViewModel>() where TViewModel : ObservableObject;

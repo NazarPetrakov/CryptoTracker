@@ -2,7 +2,7 @@
 
 namespace CryptoTracker.WPF.Helpers.QueryParameters
 {
-    public class CoinWithMarketDataParams : PaginationQueryParameters
+    internal class CoinWithMarketDataParams : PaginationQueryParams
     {
         public string VsCurrency { get; set; } = "usd";
         public string? Ids { get; set; }

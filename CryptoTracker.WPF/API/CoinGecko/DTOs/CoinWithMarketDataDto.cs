@@ -2,7 +2,7 @@
 
 namespace CryptoTracker.WPF.API.CoinGecko.DTOs
 {
-    public class CoinWithMarketDataDto
+    internal class CoinWithMarketDataDto
     {
         public string? Id { get; set; }
         public string? Symbol { get; set; }

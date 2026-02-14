@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace CryptoTracker.WPF.ViewModels
 {
-    public partial class MainViewModel : ObservableObject
+    internal partial class MainViewModel : ObservableObject
     {
         [ObservableProperty]
         private INavigationService _navigationService;

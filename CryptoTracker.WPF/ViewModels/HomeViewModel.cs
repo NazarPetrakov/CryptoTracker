@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace CryptoTracker.WPF.ViewModels
 {
-    public partial class HomeViewModel : ObservableObject
+    internal partial class HomeViewModel : ObservableObject
     {
         private readonly ICoinsService _coinService;
         private readonly IMessageService _messageService;

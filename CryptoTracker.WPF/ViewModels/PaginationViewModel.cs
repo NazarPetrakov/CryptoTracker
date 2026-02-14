@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace CryptoTracker.WPF.ViewModels
 {
-    public partial class PaginationViewModel : ObservableObject
+    internal partial class PaginationViewModel : ObservableObject
     {
         public PaginationViewModel(int defaultSize = 10)
         {

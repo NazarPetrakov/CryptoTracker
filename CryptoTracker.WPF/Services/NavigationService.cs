@@ -14,13 +14,27 @@ namespace CryptoTracker.WPF.Services
             _viewModelsFactory = viewModelsFactory;
         }
 
+        public void NavigateTo<TViewModel, TParameters>(TParameters parameters)
+            where TViewModel : ObservableObject
+            where TParameters : IViewModelParameters
+        {
+            NavigateTo<TViewModel>();
+
+            if (CurrentViewModel is IParameterizable<TParameters> cvm)
+            {
+                cvm.InitializeParameters(parameters);
+            }
+        }
         public void NavigateTo<TViewModel>() where TViewModel : ObservableObject
         {
-            ObservableObject viewModel = _viewModelsFactory.Invoke(typeof(TViewModel));
-            CurrentViewModel = viewModel;
+            SetCurrentViewModel(typeof(TViewModel));
+        }
+        public void NavigateTo(Type viewModelType)
+        {
+            SetCurrentViewModel(viewModelType);
         }
 
-        public void NavigateTo(Type viewModelType)
+        private void SetCurrentViewModel(Type viewModelType)
         {
             ObservableObject viewModel = _viewModelsFactory.Invoke(viewModelType);
             CurrentViewModel = viewModel;

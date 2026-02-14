@@ -54,7 +54,7 @@ namespace CryptoTracker.WPF.ViewModels
                 return;
             }
 
-            _navigationService.NavigateTo<DetailedCoinViewModel>(
+            _navigationService.NavigateTo<DetailedCoinViewModel, DetailedCoinViewModelParameters>(
                 new DetailedCoinViewModelParameters(SelectedCoin.Id));
         }
 

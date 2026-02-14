@@ -11,6 +11,14 @@ namespace CryptoTracker.WPF.Services
         {
             _httpClient = httpClient;
         }
+        public async Task<CoinByIdDto> GetCoinByIdAsync(string coinId, CoinByIdParams? queryParams)
+        {
+            var endpoint = AddQueryParameters($"coins/{coinId}", queryParams);
+
+            var coin = await _httpClient.GetAsync<CoinByIdDto>(endpoint);
+
+            return coin!;
+        }
         public async Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
             CoinWithMarketDataParams? queryParams = null)
         {

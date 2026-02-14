@@ -7,5 +7,6 @@ namespace CryptoTracker.WPF.Interfaces
     {
         Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
             CoinWithMarketDataParams? queryParams = null);
+        Task<CoinByIdDto> GetCoinByIdAsync(string coinId, CoinByIdParams? queryParams = null);
     }
 }

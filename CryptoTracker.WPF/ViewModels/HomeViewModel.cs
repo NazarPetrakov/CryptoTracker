@@ -110,7 +110,6 @@ namespace CryptoTracker.WPF.ViewModels
         {
             await LoadCoinsAccordingToFiltersAsync(e, SymbolToSearch);
         }
-
         private async Task LoadCoinsAsync(CoinWithMarketDataParams coinParams)
         {
             IsLoading = true;
@@ -136,7 +135,5 @@ namespace CryptoTracker.WPF.ViewModels
                 Coins.Add(dto.ToModel());
             }
         }
-
-
     }
 }

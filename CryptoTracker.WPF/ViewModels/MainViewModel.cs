@@ -9,9 +9,9 @@ namespace CryptoTracker.WPF.ViewModels
     {
         [ObservableProperty]
         private INavigationService _navigationService;
+
         [ObservableProperty]
         private NavigationItem _selectedNavItem;
-        public ObservableCollection<NavigationItem> NavigationItems { get; }
 
         public MainViewModel(INavigationService navigationService)
         {
@@ -23,6 +23,8 @@ namespace CryptoTracker.WPF.ViewModels
             };
             SelectedNavItem = NavigationItems[0];
         }
+
+        public ObservableCollection<NavigationItem> NavigationItems { get; }
 
         partial void OnSelectedNavItemChanged(NavigationItem value)
         {

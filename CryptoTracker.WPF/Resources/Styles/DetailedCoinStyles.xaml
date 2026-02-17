@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="GridIsLoadingTrigger" TargetType="Grid">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GridCellBorder" TargetType="Border">
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource PrimaryForeground}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="Padding" Value="4" />
+    </Style>
+
+    <Style x:Key="StatLabel"
+           BasedOn="{StaticResource BaseTextBlock}"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryForeground}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StatValue"
+           BasedOn="{StaticResource BaseTextBlock}"
+           TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <Style x:Key="StatRow" TargetType="Grid">
+        <Setter Property="Margin" Value="0,6" />
+    </Style>
+
+    <Style x:Key="MaxSupplyStatValue"
+           BasedOn="{StaticResource StatValue}"
+           TargetType="TextBlock">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Coin.MarketData.IsMaxSupplyInfinite}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

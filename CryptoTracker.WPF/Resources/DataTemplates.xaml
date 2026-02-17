@@ -8,6 +8,9 @@
     <DataTemplate DataType="{x:Type TypeName=vm:DetailedCoinViewModel}">
         <v:DetailedCoinView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type TypeName=vm:SettingsViewModel}">
+        <v:SettingsView />
+    </DataTemplate>
     <DataTemplate x:Key="CoinNameTemplate">
         <StackPanel Orientation="Horizontal">
             <Image Width="30"

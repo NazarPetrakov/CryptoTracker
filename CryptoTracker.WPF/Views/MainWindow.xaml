@@ -7,19 +7,29 @@
         Width="800"
         Height="450"
         mc:Ignorable="d">
-    <DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <ListBox Width="Auto "
-                 DockPanel.Dock="Left"
+        <ListBox Grid.Column="0"
+                 Width="Auto "
+                 Padding="0,10"
+                 Background="{DynamicResource PrimaryBackground}"
+                 BorderThickness="0,0,1,0"
+                 ItemContainerStyle="{StaticResource NavigationItemStyle}"
                  ItemsSource="{Binding NavigationItems}"
                  SelectedItem="{Binding SelectedNavItem}">
+
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}" />
+                    <TextBlock Padding="2,7,40,7" Text="{Binding Title}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ContentControl Content="{Binding NavigationService.CurrentViewModel}" />
-    </DockPanel>
+        <ContentControl Grid.Column="1" Content="{Binding NavigationService.CurrentViewModel}" />
+    </Grid>
+
 </Window>

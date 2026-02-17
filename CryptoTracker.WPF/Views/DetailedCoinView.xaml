@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             Background="Black"
+             Background="{DynamicResource PrimaryBackground}"
              mc:Ignorable="d">
     <UserControl.Resources>
 
@@ -186,7 +186,7 @@
 
             </Grid>
             <Grid Grid.Row="1">
-                <Border BorderBrush="White" BorderThickness="0,0,0,1">
+                <Border BorderBrush="{DynamicResource PrimaryForeground}" BorderThickness="0,0,0,1">
 
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
@@ -266,6 +266,7 @@
 
                 <ListView Grid.Row="1"
                           Background="Transparent"
+                          BorderThickness="0"
                           ItemContainerStyle="{StaticResource ItemStyle}"
                           ItemsSource="{Binding Coin.Tickers}"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -278,11 +279,11 @@
 
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource HeaderStyle}">
-                            <GridViewColumn DisplayMemberBinding="{Binding Market.Name}" Header="Name" />
-                            <GridViewColumn CellTemplate="{StaticResource MarketPathTemplate}" Header="Pair" />
-                            <GridViewColumn DisplayMemberBinding="{Binding BidAskSpreadPercentage, StringFormat={}{0:F3}%}" Header="Spread" />
-                            <GridViewColumn DisplayMemberBinding="{Binding ConvertedLast.Usd, StringFormat={}{0}$}" Header="Price" />
-                            <GridViewColumn DisplayMemberBinding="{Binding ConvertedVolume.Usd, StringFormat={}{0}$}" Header="Volume" />
+                            <GridViewColumn Width="150" DisplayMemberBinding="{Binding Market.Name}" Header="Name" />
+                            <GridViewColumn Width="120" CellTemplate="{StaticResource MarketPathTemplate}" Header="Pair" />
+                            <GridViewColumn Width="110" DisplayMemberBinding="{Binding BidAskSpreadPercentage, StringFormat={}{0:F3}%}" Header="Spread" />
+                            <GridViewColumn Width="110" DisplayMemberBinding="{Binding ConvertedLast.Usd, StringFormat={}{0}$}" Header="Price" />
+                            <GridViewColumn Width="140" DisplayMemberBinding="{Binding ConvertedVolume.Usd, StringFormat={}{0}$}" Header="Volume" />
                         </GridView>
                     </ListView.View>
 

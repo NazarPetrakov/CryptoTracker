@@ -19,7 +19,7 @@ namespace CryptoTracker.WPF.ViewModels
             NavigationItems = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem("Home", typeof(HomeViewModel)),
-                new NavigationItem("Settings", typeof(DetailedCoinViewModel))
+                new NavigationItem("Settings", typeof(SettingsViewModel))
             };
             SelectedNavItem = NavigationItems[0];
         }

@@ -1,13 +1,30 @@
-﻿<UserControl x:Class="CryptoTracker.WPF.Views.DetailedCoinView"
+﻿
+<UserControl x:Class="CryptoTracker.WPF.Views.DetailedCoinView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:components="clr-namespace:CryptoTracker.WPF.Components"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Black"
              mc:Ignorable="d">
+    <UserControl.Resources>
+
+        <DataTemplate x:Key="MarketPathTemplate">
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="Base" />
+                        <Binding Path="Target" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </DataTemplate>
+
+    </UserControl.Resources>
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:InvokeCommandAction Command="{Binding InitializeCommand}" />
@@ -15,17 +32,263 @@
     </b:Interaction.Triggers>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBlock Foreground="White" Text="{Binding CoinByIdDto.Id}" />
-        <TextBlock Grid.Row="1"
-                   Foreground="White"
-                   Text="{Binding CoinByIdDto.Symbol}" />
-        <Button Grid.Row="2"
-                Command="{Binding GoBackCommand}"
-                Content="Back" />
+        <components:LoadingSpinner Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+
+        <Grid Style="{StaticResource GridIsLoadingTrigger}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="120" />
+                <RowDefinition Height="210" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.10*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.15*" />
+                    <ColumnDefinition Width="0.20*" />
+                    <ColumnDefinition Width="0.15*" />
+                    <ColumnDefinition Width="0.15*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource GridCellBorder}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0"
+                                Margin="2,3"
+                                Command="{Binding ReloadCommand}"
+                                FontSize="4">
+                            <fa:FontAwesome FontSize="16" Icon="RotateLeft" />
+                        </Button>
+                        <Button Grid.Row="1"
+                                Margin="2,3"
+                                Command="{Binding GoBackCommand}">
+                            <fa:FontAwesome FontSize="16" Icon="ArrowLeft" />
+                        </Button>
+                    </Grid>
+
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource GridCellBorder}">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Text="{Binding Coin.MarketCapRank, StringFormat={}# {0}}" />
+                </Border>
+
+                <Border Grid.Column="2"
+                        Padding="10"
+                        Style="{StaticResource GridCellBorder}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*" />
+                            <ColumnDefinition Width="0.7*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="{Binding Coin.Image.Large}" />
+
+                        <Grid Grid.Column="1"
+                              Margin="15,0,25,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.5*" />
+                                <RowDefinition Height="0.5*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="{Binding Coin.Name}" />
+                            <TextBlock Grid.Row="1"
+                                       Margin="0,10,0,0"
+                                       Text="{Binding Coin.Symbol}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+
+
+                <Border Grid.Column="3" Style="{StaticResource GridCellBorder}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="0.5*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   HorizontalAlignment="Center"
+                                   Text="Price" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="0,15,0,0"
+                                   Text="{Binding Coin.MarketData.CurrentPrice.Usd, StringFormat={}{0}$}" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="4" Style="{StaticResource GridCellBorder}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="0.5*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   HorizontalAlignment="Center"
+                                   Text="24h Chg" />
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="0.5*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Margin="0,15,5,0"
+                                       Text="{Binding Coin.MarketData.PriceChange24h.Usd, StringFormat={}{0:F2}$}" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="0,15,0,0"
+                                       Text="{Binding Coin.MarketData.PriceChangePercentage24h.Usd, StringFormat={}{0:F1}%}" />
+                        </Grid>
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="5" Style="{StaticResource GridCellBorder}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="0.5*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="24h High" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="0,15,0,0"
+                                   Text="{Binding Coin.MarketData.High24h.Usd, StringFormat={}{0}$}" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="6" Style="{StaticResource GridCellBorder}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="0.5*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="24h Low" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="0,15,0,0"
+                                   Text="{Binding Coin.MarketData.Low24h.Usd, StringFormat={}{0}$}" />
+                    </Grid>
+                </Border>
+
+            </Grid>
+            <Grid Grid.Row="1">
+                <Border BorderBrush="White" BorderThickness="0,0,0,1">
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+                        <TextBlock Padding="10"
+                                   Text="{Binding Coin.Description}"
+                                   TextWrapping="Wrap" />
+
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="2" Margin="15,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+
+                    <Grid Style="{StaticResource StatRow}">
+                        <TextBlock Style="{StaticResource StatLabel}" Text="Market cap" />
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource StatValue}"
+                                   Text="{Binding Coin.MarketData.MarketCap.Usd, StringFormat={}{0:N0}$}" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource StatRow}">
+                        <TextBlock Style="{StaticResource StatLabel}" Text="All time high" />
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource StatValue}"
+                                   Text="{Binding Coin.MarketData.AllTimeHigh.Usd, StringFormat={}{0:F2}$}" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource StatRow}">
+                        <TextBlock Style="{StaticResource StatLabel}" Text="Fully Diluted Valuation" />
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource StatValue}"
+                                   Text="{Binding Coin.MarketData.FullyDilutedValuation.Usd, StringFormat={}{0:N0}$}" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource StatRow}">
+                        <TextBlock Style="{StaticResource StatLabel}" Text="Total volume" />
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource StatValue}"
+                                   Text="{Binding Coin.MarketData.TotalVolume.Usd, StringFormat={}{0:N0}$}" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource StatRow}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource StatLabel}"
+                                   Text="Max supply" />
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource MaxSupplyStatValue}"
+                                   Text="{Binding Coin.MarketData.MaxSupply, StringFormat={}{0:N0}}" />
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource StatValue}"
+                                   Text="∞"
+                                   Visibility="{Binding Coin.MarketData.IsMaxSupplyInfinite, Converter={StaticResource BoolToVis}}" />
+                    </Grid>
+
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Margin="5,0,0,5"
+                           FontSize="16"
+                           Text="{Binding Coin.Name, StringFormat={}{0} Markets}" />
+
+                <ListView Grid.Row="1"
+                          Background="Transparent"
+                          ItemContainerStyle="{StaticResource ItemStyle}"
+                          ItemsSource="{Binding Coin.Tickers}"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          SelectedItem="{Binding SelectedMarket}">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseDoubleClick">
+                            <b:InvokeCommandAction Command="{Binding OpenMarketPageCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource HeaderStyle}">
+                            <GridViewColumn DisplayMemberBinding="{Binding Market.Name}" Header="Name" />
+                            <GridViewColumn CellTemplate="{StaticResource MarketPathTemplate}" Header="Pair" />
+                            <GridViewColumn DisplayMemberBinding="{Binding BidAskSpreadPercentage, StringFormat={}{0:F3}%}" Header="Spread" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ConvertedLast.Usd, StringFormat={}{0}$}" Header="Price" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ConvertedVolume.Usd, StringFormat={}{0}$}" Header="Volume" />
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+            </Grid>
+
+        </Grid>
     </Grid>
 </UserControl>

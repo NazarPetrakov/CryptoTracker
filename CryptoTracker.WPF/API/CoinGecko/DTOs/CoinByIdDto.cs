@@ -23,7 +23,7 @@ namespace CryptoTracker.WPF.API.CoinGecko.DTOs
     internal record PriceInCurrency(decimal? Btc, decimal? Eur, decimal? Usd, decimal? Uah);
     internal record DateByCurrency(DateTimeOffset? Btc, DateTimeOffset? Eur, DateTimeOffset? Usd, DateTimeOffset? Uah);
     internal record LinksContainer(string[] Homepage);
-    internal record ImageDto(string Thumb, string Small, string Large);
+    internal record ImageDto(string? Thumb, string? Small, string? Large);
     internal record MarketDto(string? Name, string? Identifier);
     internal class TickerDto
     {
@@ -38,7 +38,6 @@ namespace CryptoTracker.WPF.API.CoinGecko.DTOs
         public string? TradeUrl { get; set; }
         [JsonProperty("bid_ask_spread_percentage")]
         public decimal? BidAskSpreadPercentage { get; set; }
-
     }
     internal class MarketDataDto
     {
@@ -92,6 +91,9 @@ namespace CryptoTracker.WPF.API.CoinGecko.DTOs
         public PriceInCurrency? MarketCapChangePercentage24h { get; set; }
         [JsonProperty("max_supply")]
         public decimal? MaxSupply { get; set; }
+        [JsonProperty("max_supply_infinite")]
+        public bool? IsMaxSupplyInfinite { get; set; }
+
         [JsonProperty("circulating_supply")]
         public decimal? CirculatingSupply { get; set; }
         [JsonProperty("last_updated")]

@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CryptoTracker.WPF.API.CoinGecko.DTOs;
+using CryptoTracker.WPF.Extensions;
 using CryptoTracker.WPF.Helpers.Navigation.Parameters;
 using CryptoTracker.WPF.Interfaces;
+using CryptoTracker.WPF.Models;
+using System.Diagnostics;
 
 namespace CryptoTracker.WPF.ViewModels
 {
@@ -11,22 +14,39 @@ namespace CryptoTracker.WPF.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ICoinsService _coinService;
+        private readonly IMessageService _messageService;
 
-        public DetailedCoinViewModel(INavigationService navigationService, ICoinsService coinService)
+        public DetailedCoinViewModel(INavigationService navigationService,
+            ICoinsService coinService, IMessageService messageService)
         {
             _navigationService = navigationService;
             _coinService = coinService;
+            _messageService = messageService;
         }
 
-        public DetailedCoinViewModelParameters ViewModelParameters { get; private set; }
+        [ObservableProperty]
+        private bool _isLoading;
 
         [ObservableProperty]
-        private CoinByIdDto? _coinByIdDto;
+        private DetailedCoin? _coin;
 
+        [ObservableProperty]
+        private TickerDto? _selectedMarket;
+        public DetailedCoinViewModelParameters ViewModelParameters { get; private set; }
+
+        [RelayCommand]
+        private void OpenMarketPage()
+        {
+            if (SelectedMarket is not null && SelectedMarket.TradeUrl is not null)
+            {
+                string url = SelectedMarket.TradeUrl;
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+            }
+        }
         [RelayCommand]
         private async Task Initialize()
         {
-            CoinByIdDto = await LoadCoinById(ViewModelParameters.Id);
+            await LoadCoinById(ViewModelParameters.Id);
         }
 
         [RelayCommand]
@@ -35,9 +55,29 @@ namespace CryptoTracker.WPF.ViewModels
             _navigationService.NavigateTo<HomeViewModel>();
         }
 
-        public async Task<CoinByIdDto> LoadCoinById(string coinId)
+        [RelayCommand]
+        private async Task Reload()
         {
-            return await _coinService.GetCoinByIdAsync(coinId);
+            if (IsLoading) return;
+            await LoadCoinById(ViewModelParameters.Id);
+        }
+
+        public async Task LoadCoinById(string coinId)
+        {
+            IsLoading = true;
+            try
+            {
+                var coinDto = await _coinService.GetCoinByIdAsync(coinId);
+                Coin = coinDto.ToModel();
+            }
+            catch (Exception e)
+            {
+                _messageService.ShowError($"Failed to load coin, Details:{e.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
         public void InitializeParameters(DetailedCoinViewModelParameters viewModelParameters)
         {

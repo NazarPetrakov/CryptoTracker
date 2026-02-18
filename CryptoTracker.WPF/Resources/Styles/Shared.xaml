@@ -6,20 +6,16 @@
     <Style x:Key="BaseTextBlock" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     </Style>
     <Style BasedOn="{StaticResource BaseTextBlock}" TargetType="TextBlock" />
 
     <Style x:Key="BaseButton" TargetType="Button">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="14,8" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource PrimaryForeground}" />
-        <Setter Property="Background"
-                Value="{DynamicResource PrimaryBackground}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBackground}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Cursor" Value="Hand" />
 
@@ -42,21 +38,13 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd"
-                                    Property="Background"
-                                    Value="{DynamicResource PrimaryBackgroundHover}" />
-                            <Setter TargetName="Bd"
-                                    Property="BorderBrush"
-                                    Value="{DynamicResource SecondaryBackground}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource PrimaryBackgroundHover}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource SecondaryBackground}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bd"
-                                    Property="Background"
-                                    Value="{DynamicResource PrimaryBackgroundSelected}" />
-                            <Setter TargetName="Bd"
-                                    Property="BorderBrush"
-                                    Value="{DynamicResource SecondaryBackgroundSelected}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource PrimaryBackgroundSelected}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundSelected}" />
                             <Setter TargetName="Bd" Property="RenderTransform">
                                 <Setter.Value>
                                     <ScaleTransform ScaleX="0.98" ScaleY="0.98" />
@@ -79,17 +67,13 @@
     <Style x:Key="BaseTextBox" TargetType="TextBox">
         <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource PrimaryForeground}" />
-        <Setter Property="Background"
-                Value="{DynamicResource SecondaryBackground}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackground}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="10,6" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CaretBrush"
-                Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryBackground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
@@ -106,20 +90,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border"
-                                    Property="Background"
-                                    Value="{DynamicResource SecondaryBackgroundHover}" />
-                            <Setter TargetName="border"
-                                    Property="BorderBrush"
-                                    Value="{DynamicResource SecondaryBackgroundHover}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SecondaryBackgroundHover}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundHover}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border"
-                                    Property="Background"
-                                    Value="{DynamicResource SecondaryBackgroundSelected}" />
-                            <Setter TargetName="border"
-                                    Property="BorderBrush"
-                                    Value="{DynamicResource SecondaryBackgroundHover}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SecondaryBackgroundSelected}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundHover}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -130,8 +106,7 @@
 
     <Style x:Key="BaseComboBoxItem" TargetType="ComboBoxItem">
         <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
         <Setter Property="Padding" Value="10,8" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
@@ -149,14 +124,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd"
-                                    Property="Background"
-                                    Value="{DynamicResource SecondaryBackgroundHover}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SecondaryBackgroundHover}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Bd"
-                                    Property="Background"
-                                    Value="{DynamicResource SecondaryBackgroundSelected}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SecondaryBackgroundSelected}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -194,17 +165,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="templateRoot"
-                                    Property="Background"
-                                    Value="{DynamicResource SecondaryBackgroundHover}" />
-                            <Setter TargetName="templateRoot"
-                                    Property="BorderBrush"
-                                    Value="{DynamicResource PrimaryBackground}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource SecondaryBackgroundHover}" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource PrimaryBackground}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="templateRoot"
-                                    Property="Background"
-                                    Value="{DynamicResource SecondaryBackgroundSelected}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource SecondaryBackgroundSelected}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -214,15 +179,13 @@
 
     <Style x:Key="BaseComboBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource PrimaryForeground}" />
-        <Setter Property="Background"
-                Value="{DynamicResource SecondaryBackground}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackground}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="10,6" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource BaseComboBoxItem}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">

@@ -17,12 +17,17 @@ namespace CryptoTracker.WPF.ViewModels
         private readonly IMessageService _messageService;
 
         public DetailedCoinViewModel(INavigationService navigationService,
-            ICoinsService coinService, IMessageService messageService)
+            ICoinsService coinService, IMessageService messageService,
+            CurrencyConverterViewModel converter)
         {
             _navigationService = navigationService;
             _coinService = coinService;
             _messageService = messageService;
+            _currencyConverter = converter;
         }
+
+        [ObservableProperty]
+        private CurrencyConverterViewModel _currencyConverter;
 
         [ObservableProperty]
         private bool _isLoading;
@@ -32,7 +37,14 @@ namespace CryptoTracker.WPF.ViewModels
 
         [ObservableProperty]
         private TickerDto? _selectedMarket;
+
         public DetailedCoinViewModelParameters ViewModelParameters { get; private set; }
+
+        [RelayCommand]
+        private async Task Initialize()
+        {
+            await LoadCoinById(ViewModelParameters.Id);
+        }
 
         [RelayCommand]
         private void OpenMarketPage()
@@ -42,11 +54,6 @@ namespace CryptoTracker.WPF.ViewModels
                 string url = SelectedMarket.TradeUrl;
                 Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
             }
-        }
-        [RelayCommand]
-        private async Task Initialize()
-        {
-            await LoadCoinById(ViewModelParameters.Id);
         }
 
         [RelayCommand]
@@ -62,6 +69,12 @@ namespace CryptoTracker.WPF.ViewModels
             await LoadCoinById(ViewModelParameters.Id);
         }
 
+        [RelayCommand]
+        private async Task ConvertCurrency()
+        {
+            await CurrencyConverter.ConvertCurrency(ViewModelParameters.Id);
+        }
+
         public async Task LoadCoinById(string coinId)
         {
             IsLoading = true;
@@ -70,19 +83,18 @@ namespace CryptoTracker.WPF.ViewModels
 
             result.Match(
                 onSuccess: () =>
-            {
+                {
                     Coin = result.Value;
                     return true;
                 },
                 onFailure: error =>
-            {
+                {
                     _messageService.ShowError(
                         $"Failed to load coin. Details: {error.Description}", $"Error {error.Code}");
                     return false;
                 });
 
-                IsLoading = false;
-            }
+            IsLoading = false;
         }
         public void InitializeParameters(DetailedCoinViewModelParameters viewModelParameters)
         {

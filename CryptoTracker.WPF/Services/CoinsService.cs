@@ -39,6 +39,36 @@ namespace CryptoTracker.WPF.Services
 
             return ResultT<IEnumerable<Coin>>.Success(coinsDtoResult.Value.Select(dto => dto.ToModel()));
         }
+        public async Task<ResultT<decimal>> ConvertCurrencyAsync(
+            string fromCurrencyId, decimal amount, string toVsCurrency)
+        {
+            var queryParams = new SimplePriceQueryParams()
+            {
+                Ids = $"{fromCurrencyId}",
+                VsCurrency = toVsCurrency,
+            };
+
+            var endpoint = AddQueryParameters($"simple/price", queryParams);
+
+            var result = await _httpClient.GetAsync<SimplePriceResponseDto>(endpoint);
+
+            if (!result.IsSuccess)
+            {
+                return ResultT<decimal>.Failure(result.Error!);
+            }
+
+            var response = result.Value;
+
+            if (response is null ||
+                !response.TryGetValue(fromCurrencyId, out var coinData) ||
+                !coinData.TryGetValue(toVsCurrency, out var rate))
+            {
+                return CoinGeckoErrors.MissingData(fromCurrencyId, toVsCurrency);
+            }
+
+            return rate * amount;
+
+        }
         private string AddQueryParameters(string endpoint, BaseQueryParams? queryParams)
         {
             if (queryParams is not null)

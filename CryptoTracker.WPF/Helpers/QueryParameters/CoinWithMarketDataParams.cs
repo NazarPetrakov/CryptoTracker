@@ -1,4 +1,5 @@
 ﻿using CryptoTracker.WPF.Extensions;
+using CryptoTracker.WPF.Helpers.QueryParameters.Enums;
 using System.Runtime.Serialization;
 
 namespace CryptoTracker.WPF.Helpers.QueryParameters
@@ -41,14 +42,6 @@ namespace CryptoTracker.WPF.Helpers.QueryParameters
         En,
         [EnumMember(Value = "uk")]
         Uk
-    }
-    internal enum IncludeTokens
-    {
-
-        [EnumMember(Value = "top")]
-        Top,
-        [EnumMember(Value = "all")]
-        All
     }
     internal enum CoinsOrderBy
     {

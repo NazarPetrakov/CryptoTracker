@@ -5,8 +5,8 @@ namespace CryptoTracker.WPF.Interfaces
 {
     internal interface ICoinsService
     {
-        Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
+        Task<ResultT<IEnumerable<Coin>>> GetCoinsWithMarketDataAsync(
             CoinWithMarketDataParams? queryParams = null);
-        Task<CoinByIdDto> GetCoinByIdAsync(string coinId, CoinByIdParams? queryParams = null);
+        Task<ResultT<DetailedCoin>> GetCoinByIdAsync(string coinId, CoinByIdParams? queryParams = null);
     }
 }

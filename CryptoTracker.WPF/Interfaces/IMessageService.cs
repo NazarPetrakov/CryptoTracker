@@ -2,7 +2,7 @@
 {
     internal interface IMessageService
     {
-        void ShowError(string message);
+        void ShowError(string message, string caption = "Error");
         void ShowMessage(string message, string caption = "Message");
     }
 }

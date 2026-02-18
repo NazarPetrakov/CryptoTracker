@@ -1,4 +1,6 @@
-﻿using CryptoTracker.WPF.Interfaces;
+﻿using CryptoTracker.WPF.Helpers.Errors;
+using CryptoTracker.WPF.Helpers.ResultT;
+using CryptoTracker.WPF.Interfaces;
 using CryptoTracker.WPF.Options;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -31,7 +33,7 @@ namespace CryptoTracker.WPF.API.CoinGecko
                     productInfo.Version?.ToString() ?? "1.0"));
         }
 
-        public async Task<T?> GetAsync<T>(string uri)
+        public async Task<ResultT<T>> GetAsync<T>(string uri)
         {
             var response = await _httpClient.GetAsync(uri);
 
@@ -39,13 +41,16 @@ namespace CryptoTracker.WPF.API.CoinGecko
             {
                 var body = await response.Content.ReadAsStringAsync();
 
-                throw new HttpRequestException($"CoinGecko request failed: " +
-                    $"{(int)response.StatusCode} {response.StatusCode}. Response: {body}", null, response.StatusCode);
+                return CoinGeckoErrors.ApiError(
+                    (int)response.StatusCode, response.StatusCode.ToString(), body);
             }
 
             var content = await response.Content.ReadAsStringAsync();
 
             var objectToReturn = JsonConvert.DeserializeObject<T>(content);
+
+            if (objectToReturn is null)
+                return CoinGeckoErrors.EmptyResponse;
 
             return objectToReturn;
         }

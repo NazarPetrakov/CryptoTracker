@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CryptoTracker.WPF.API.CoinGecko.DTOs;
 using CryptoTracker.WPF.Extensions;
 using CryptoTracker.WPF.Helpers.Navigation.Parameters;
 using CryptoTracker.WPF.Helpers.QueryParameters;
+using CryptoTracker.WPF.Helpers.QueryParameters.Enums;
 using CryptoTracker.WPF.Interfaces;
 using CryptoTracker.WPF.Models;
 using System.Collections.ObjectModel;
@@ -113,26 +113,31 @@ namespace CryptoTracker.WPF.ViewModels
         private async Task LoadCoinsAsync(CoinWithMarketDataParams coinParams)
         {
             IsLoading = true;
-            try
-            {
-                var coinDtos = await _coinService.GetCoinsWithMarketDataAsync(coinParams);
-                UpdateCoinList(coinDtos);
-            }
-            catch (Exception e)
-            {
-                _messageService.ShowError($"Failed to load coins, Details:{e.Message}");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+
+            var result = await _coinService.GetCoinsWithMarketDataAsync(coinParams);
+
+            result.Match(
+                onSuccess: () =>
+                {
+                    UpdateCoinList(result.Value);
+                    return true;
+                },
+                onFailure: error =>
+                {
+                    _messageService.ShowError(
+                        $"Failed to load coins. Details: {error.Description}", $"Error {error.Code}");
+                    return false;
+                });
+
+            IsLoading = false;
         }
-        private void UpdateCoinList(IEnumerable<CoinWithMarketDataDto> dtos)
+        private void UpdateCoinList(IEnumerable<Coin> dtos)
         {
             Coins.Clear();
+
             foreach (var dto in dtos)
             {
-                Coins.Add(dto.ToModel());
+                Coins.Add(dto);
             }
         }
     }

@@ -65,17 +65,22 @@ namespace CryptoTracker.WPF.ViewModels
         public async Task LoadCoinById(string coinId)
         {
             IsLoading = true;
-            try
+
+            var result = await _coinService.GetCoinByIdAsync(coinId);
+
+            result.Match(
+                onSuccess: () =>
             {
-                var coinDto = await _coinService.GetCoinByIdAsync(coinId);
-                Coin = coinDto.ToModel();
-            }
-            catch (Exception e)
+                    Coin = result.Value;
+                    return true;
+                },
+                onFailure: error =>
             {
-                _messageService.ShowError($"Failed to load coin, Details:{e.Message}");
-            }
-            finally
-            {
+                    _messageService.ShowError(
+                        $"Failed to load coin. Details: {error.Description}", $"Error {error.Code}");
+                    return false;
+                });
+
                 IsLoading = false;
             }
         }

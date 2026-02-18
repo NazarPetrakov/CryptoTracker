@@ -1,6 +1,10 @@
 ﻿using CryptoTracker.WPF.API.CoinGecko.DTOs;
+using CryptoTracker.WPF.Extensions;
+using CryptoTracker.WPF.Helpers.Errors;
 using CryptoTracker.WPF.Helpers.QueryParameters;
+using CryptoTracker.WPF.Helpers.ResultT;
 using CryptoTracker.WPF.Interfaces;
+using CryptoTracker.WPF.Models;
 
 namespace CryptoTracker.WPF.Services
 {
@@ -11,22 +15,29 @@ namespace CryptoTracker.WPF.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<CoinByIdDto> GetCoinByIdAsync(string coinId, CoinByIdParams? queryParams)
+        public async Task<ResultT<DetailedCoin>> GetCoinByIdAsync(
+            string coinId, CoinByIdParams? queryParams)
         {
             var endpoint = AddQueryParameters($"coins/{coinId}", queryParams);
 
-            var coin = await _httpClient.GetAsync<CoinByIdDto>(endpoint);
+            var coinDtoResult = await _httpClient.GetAsync<CoinByIdDto>(endpoint);
 
-            return coin!;
+            if (!coinDtoResult.IsSuccess)
+                return ResultT<DetailedCoin>.Failure(coinDtoResult.Error!);
+
+            return ResultT<DetailedCoin>.Success(coinDtoResult.Value.ToModel());
         }
-        public async Task<IEnumerable<CoinWithMarketDataDto>> GetCoinsWithMarketDataAsync(
+        public async Task<ResultT<IEnumerable<Coin>>> GetCoinsWithMarketDataAsync(
             CoinWithMarketDataParams? queryParams = null)
         {
             var endpoint = AddQueryParameters("coins/markets", queryParams);
 
-            var coins = await _httpClient.GetAsync<IEnumerable<CoinWithMarketDataDto>>(endpoint);
+            var coinsDtoResult = await _httpClient.GetAsync<IEnumerable<CoinWithMarketDataDto>>(endpoint);
 
-            return coins!;
+            if (!coinsDtoResult.IsSuccess)
+                return ResultT<IEnumerable<Coin>>.Failure(coinsDtoResult.Error!);
+
+            return ResultT<IEnumerable<Coin>>.Success(coinsDtoResult.Value.Select(dto => dto.ToModel()));
         }
         private string AddQueryParameters(string endpoint, BaseQueryParams? queryParams)
         {

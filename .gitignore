@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/CryptoTracker.WPF/appsettings.json
+/CryptoTracker.WPF/appsettings.Development.json
